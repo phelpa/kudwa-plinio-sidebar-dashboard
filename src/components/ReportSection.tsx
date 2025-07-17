@@ -3,8 +3,9 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { toggleFieldExpansion } from "../store/slices/reportSlice";
 import { selectIsFieldExpanded } from "../store/selectors/reportSelectors";
 import type { TopLevelField, PeriodType } from "../types/report";
-import ReportField from "./ReportField";
 import { formatCurrency } from "../utils/formatters";
+import { calculateSectionTotal } from "../utils/reportCalculations";
+import ReportField from "./ReportField";
 
 interface ReportSectionProps {
   section: TopLevelField;
@@ -22,25 +23,7 @@ const ReportSection: React.FC<ReportSectionProps> = ({
     dispatch(toggleFieldExpansion(section.id));
   };
 
-  // Calculate total for the section based on current period
-  const calculateSectionTotal = () => {
-    let total = 0;
-    section.fields.forEach((field) => {
-      if (field.actualData && field.actualData.length > 0) {
-        const data = field.actualData[0];
-        if (currentPeriod === "yearly" && data.yearly) {
-          total += data.yearly.reduce((sum, val) => sum + val, 0);
-        } else if (currentPeriod === "quarterly" && data.quarterly) {
-          total += data.quarterly.reduce((sum, val) => sum + val, 0);
-        } else if (data.value) {
-          total += data.value.reduce((sum, val) => sum + val, 0);
-        }
-      }
-    });
-    return total;
-  };
-
-  const sectionTotal = calculateSectionTotal();
+  const sectionTotal = calculateSectionTotal(section, currentPeriod);
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-light-brown">

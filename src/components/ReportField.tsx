@@ -7,6 +7,7 @@ import type {
   PeriodType,
 } from "../types/report";
 import { formatCurrency } from "../utils/formatters";
+import { calculateFieldValue } from "../utils/reportCalculations";
 
 interface ReportFieldProps {
   field: ReportFieldType;
@@ -23,54 +24,10 @@ const ReportField: React.FC<ReportFieldProps> = ({
   const isExpanded = useAppSelector(selectIsFieldExpanded(field.id));
 
   const handleToggleExpansion = () => {
-    console.log("Toggling field:", field.id, "Currently expanded:", isExpanded);
     dispatch(toggleFieldExpansion(field.id));
   };
 
-  // Calculate field value based on current period
-  const getFieldValue = () => {
-    if (!field.actualData || field.actualData.length === 0) {
-      return 0;
-    }
-
-    const data = field.actualData[0] as unknown;
-
-    // Try to access the period-specific data first, fall back to value array
-    try {
-      if (
-        currentPeriod === "yearly" &&
-        data &&
-        typeof data === "object" &&
-        "yearly" in data
-      ) {
-        const yearlyData = (data as { yearly: number[] }).yearly;
-        return Array.isArray(yearlyData)
-          ? yearlyData.reduce((sum: number, val: number) => sum + val, 0)
-          : 0;
-      } else if (
-        currentPeriod === "quarterly" &&
-        data &&
-        typeof data === "object" &&
-        "quarterly" in data
-      ) {
-        const quarterlyData = (data as { quarterly: number[] }).quarterly;
-        return Array.isArray(quarterlyData)
-          ? quarterlyData.reduce((sum: number, val: number) => sum + val, 0)
-          : 0;
-      } else if (data && typeof data === "object" && "value" in data) {
-        const valueData = (data as { value: number[] }).value;
-        return Array.isArray(valueData)
-          ? valueData.reduce((sum: number, val: number) => sum + val, 0)
-          : 0;
-      }
-    } catch (error) {
-      console.warn("Error calculating field value:", error);
-    }
-
-    return 0;
-  };
-
-  const fieldValue = getFieldValue();
+  const fieldValue = calculateFieldValue(field, currentPeriod);
   const hasSubFields = field.fields && field.fields.length > 0;
   const indentLevel = level * 20;
 
@@ -105,13 +62,7 @@ const ReportField: React.FC<ReportFieldProps> = ({
             </button>
           )}
           <div>
-            <p
-              className={`font-medium text-dark-gray ${
-                hasSubFields ? "text-sm" : "text-sm"
-              }`}
-            >
-              {field.name}
-            </p>
+            <p className="font-medium text-dark-gray text-sm">{field.name}</p>
             {field.uniqueReference && (
               <p className="text-xs text-gray-500">
                 {field.uniqueReference.accountName ||
@@ -122,11 +73,7 @@ const ReportField: React.FC<ReportFieldProps> = ({
         </div>
 
         <div className="text-right">
-          <p
-            className={`font-semibold text-dark-gray ${
-              hasSubFields ? "text-sm" : "text-sm"
-            }`}
-          >
+          <p className="font-semibold text-dark-gray text-sm">
             {formatCurrency(fieldValue)}
           </p>
         </div>
@@ -136,7 +83,7 @@ const ReportField: React.FC<ReportFieldProps> = ({
       {hasSubFields && isExpanded && (
         <div className="border-t border-gray-100 bg-gray-25">
           <div className="space-y-1 p-2">
-            {field?.fields?.map((subField) => (
+            {field.fields?.map((subField) => (
               <ReportField
                 key={subField.id}
                 field={subField}

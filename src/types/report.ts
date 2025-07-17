@@ -1,3 +1,5 @@
+export type PeriodType = "monthly" | "quarterly" | "yearly";
+
 export interface UniqueReference {
   sheetType: string;
   integrationSourceId: number;
@@ -12,12 +14,11 @@ export interface ActualData {
   topLevelFieldId: number | null;
   fieldId: number;
   value: number[];
-  yearly: number[];
-  quarterly: number[];
-  yearlyPastMonth: number[];
-  quarterlyPastMonth: number[];
-  yearlyResult: number[];
-  quarterlyResult: number[];
+  codatAccountId: string | null;
+  integrationSourceId: number;
+  source: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ReportField {
@@ -36,6 +37,17 @@ export interface ReportField {
   outputs: unknown[];
   actualData: ActualData[];
   fields?: ReportField[]; // For nested fields
+
+  // Period-specific data arrays (directly on field)
+  result: number[];
+  totalResult: number[];
+  pastMonth: number[];
+  yearly: number[];
+  quarterly: number[];
+  yearlyPastMonth: number[];
+  quarterlyPastMonth: number[];
+  yearlyResult: number[];
+  quarterlyResult: number[];
 }
 
 export interface TopLevelField {
@@ -50,6 +62,17 @@ export interface TopLevelField {
   outputs: unknown[];
   actualData: ActualData[];
   fields: ReportField[];
+
+  // Period-specific data arrays (directly on section)
+  result: number[];
+  totalResult: number[];
+  pastMonth: number[];
+  yearly: number[];
+  quarterly: number[];
+  yearlyPastMonth: number[];
+  quarterlyPastMonth: number[];
+  yearlyResult: number[];
+  quarterlyResult: number[];
 }
 
 export interface ReportResult {
@@ -60,12 +83,10 @@ export interface ReportResult {
   createdAt: string;
   updatedAt: string;
   profitnLoss: TopLevelField[];
-  cashFlow?: TopLevelField[];
-  balanceSheet?: TopLevelField[];
+  metrics?: unknown[];
+  computedFields?: unknown[];
 }
 
 export interface ReportData {
   reportResult: ReportResult;
 }
-
-export type PeriodType = "monthly" | "quarterly" | "yearly";
