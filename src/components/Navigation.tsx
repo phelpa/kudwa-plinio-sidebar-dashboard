@@ -21,11 +21,11 @@ const Navigation: React.FC<NavigationProps> = ({ isCollapsed, onToggle }) => {
         {/* App Title and Toggle */}
         <div className="p-4 border-b border-light-brown flex items-center justify-between">
           {!isCollapsed && (
-            <h1 className="text-2xl font-bold text-warm-brown">FinanceApp</h1>
+            <img src="/kudwa.png" alt="Kudwa" className="h-6 w-auto" />
           )}
           <button
             onClick={onToggle}
-            className="p-2 rounded-lg text-gray-600 hover:text-dark-gray hover:bg-gray-100"
+            className="p-2 rounded-lg text-warm-brown hover:text-dark-gray hover:bg-gray-100"
             title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             <svg
