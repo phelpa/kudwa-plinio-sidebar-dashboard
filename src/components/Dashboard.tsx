@@ -65,13 +65,13 @@ const Dashboard: React.FC = () => {
   return (
     <div>
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-light-brown bg-light-brown rounded-xl">
+      <div className="bg-light-brown shadow-sm border-b border-light-brown rounded-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div>
               <div className="flex items-center space-x-3">
                 <div>
-                  <h1 className="text-3xl font-bold text-dark-gray ">
+                  <h1 className="text-3xl font-bold text-dark-gray">
                     Dashboard
                   </h1>
                   <p className="text-sm text-gray-600 mt-1 font-bold">
@@ -83,16 +83,16 @@ const Dashboard: React.FC = () => {
 
             {/* Period Selector */}
             <div className="mt-4 sm:mt-0">
-              <div className="flex rounded-lg bg-gray-100 p-1">
+              <div className="flex bg-white rounded-lg border border-light-brown p-1">
                 {(["monthly", "quarterly", "yearly"] as PeriodType[]).map(
                   (period) => (
                     <button
                       key={period}
                       onClick={() => handlePeriodChange(period)}
-                      className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                      className={`px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200 capitalize ${
                         currentPeriod === period
-                          ? "bg-warm-brown text-white shadow-sm"
-                          : "text-gray-600 hover:text-dark-gray hover:bg-gray-200"
+                          ? "bg-warm-brown text-white"
+                          : "text-gray-600 hover:text-dark-gray hover:bg-gray-100"
                       }`}
                     >
                       {periodLabels[period]}

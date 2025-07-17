@@ -73,65 +73,69 @@ const ReportPage: React.FC = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div>
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-dark-gray">
-              Financial Report
-            </h1>
-            <p className="mt-2 text-gray-600">
-              Detailed profit and loss statement
-            </p>
-          </div>
-
-          {/* Period Selection */}
-          <div className="mt-4 sm:mt-0 flex flex-col sm:flex-row gap-4">
-            <div className="flex bg-white rounded-lg border border-light-brown p-1">
-              {(["monthly", "quarterly", "yearly"] as const).map((period) => (
-                <button
-                  key={period}
-                  onClick={() => handlePeriodChange(period)}
-                  className={`px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200 capitalize ${
-                    currentPeriod === period
-                      ? "bg-warm-brown text-white"
-                      : "text-gray-600 hover:text-dark-gray hover:bg-gray-100"
-                  }`}
-                >
-                  {period}
-                </button>
-              ))}
+      <div className="bg-light-brown shadow-sm border-b border-light-brown rounded-xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-dark-gray">
+                Financial Report
+              </h1>
+              <p className="mt-2 text-gray-600">
+                Detailed profit and loss statement
+              </p>
             </div>
 
-            {/* Expand/Collapse Controls */}
-            <div className="flex gap-2">
-              <button
-                onClick={handleExpandAll}
-                className="px-4 py-2 text-sm font-medium bg-white text-warm-brown border border-light-brown rounded-md hover:bg-gray-50 transition-colors duration-200"
-              >
-                Expand All
-              </button>
-              <button
-                onClick={handleCollapseAll}
-                className="px-4 py-2 text-sm font-medium bg-white text-warm-brown border border-light-brown rounded-md hover:bg-gray-50 transition-colors duration-200"
-              >
-                Collapse All
-              </button>
+            {/* Period Selection */}
+            <div className="mt-4 sm:mt-0 flex flex-col sm:flex-row gap-4">
+              <div className="flex bg-white rounded-lg border border-light-brown p-1">
+                {(["monthly", "quarterly", "yearly"] as const).map((period) => (
+                  <button
+                    key={period}
+                    onClick={() => handlePeriodChange(period)}
+                    className={`px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200 capitalize ${
+                      currentPeriod === period
+                        ? "bg-warm-brown text-white"
+                        : "text-gray-600 hover:text-dark-gray hover:bg-gray-100"
+                    }`}
+                  >
+                    {period}
+                  </button>
+                ))}
+              </div>
+
+              {/* Expand/Collapse Controls */}
+              <div className="flex gap-2">
+                <button
+                  onClick={handleExpandAll}
+                  className="px-4 py-2 text-sm font-medium bg-white text-warm-brown border border-light-brown rounded-md hover:bg-gray-50 transition-colors duration-200"
+                >
+                  Expand All
+                </button>
+                <button
+                  onClick={handleCollapseAll}
+                  className="px-4 py-2 text-sm font-medium bg-white text-warm-brown border border-light-brown rounded-md hover:bg-gray-50 transition-colors duration-200"
+                >
+                  Collapse All
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Report Sections */}
-      <div className="space-y-6">
-        {sections.map((section) => (
-          <ReportSection
-            key={section.id}
-            section={section}
-            currentPeriod={currentPeriod}
-          />
-        ))}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="space-y-6">
+          {sections.map((section) => (
+            <ReportSection
+              key={section.id}
+              section={section}
+              currentPeriod={currentPeriod}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
