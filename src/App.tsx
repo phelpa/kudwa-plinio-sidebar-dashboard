@@ -12,10 +12,12 @@ function App() {
       <Router>
         <div className="min-h-screen bg-light-gray">
           <Navigation />
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/report" element={<ReportPage />} />
-          </Routes>
+          <main className="ml-64">
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/report" element={<ReportPage />} />
+            </Routes>
+          </main>
         </div>
       </Router>
     </Provider>
