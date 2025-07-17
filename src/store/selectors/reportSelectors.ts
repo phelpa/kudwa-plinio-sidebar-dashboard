@@ -11,4 +11,4 @@ export const selectError = (state: RootState) => state.report.error;
 
 // Selector for checking if a field is expanded
 export const selectIsFieldExpanded = (fieldId: number) => (state: RootState) =>
-  state.report.expandedFields.has(fieldId);
+  state.report.expandedFields.includes(fieldId);

@@ -8,7 +8,7 @@ import reportData from "../../report-json/report.json";
 interface ReportState {
   data: ReportData | null;
   currentPeriod: PeriodType;
-  expandedFields: Set<number>;
+  expandedFields: number[];
   isLoading: boolean;
   error: string | null;
 }
@@ -16,7 +16,7 @@ interface ReportState {
 const initialState: ReportState = {
   data: null,
   currentPeriod: "monthly",
-  expandedFields: new Set(),
+  expandedFields: [],
   isLoading: false,
   error: null,
 };
@@ -37,28 +37,28 @@ const reportSlice = createSlice({
     },
     toggleFieldExpansion: (state, action: PayloadAction<number>) => {
       const fieldId = action.payload;
-      const newExpandedFields = new Set(state.expandedFields);
+      const index = state.expandedFields.indexOf(fieldId);
 
-      if (newExpandedFields.has(fieldId)) {
-        newExpandedFields.delete(fieldId);
+      if (index > -1) {
+        // Field is expanded, remove it
+        state.expandedFields.splice(index, 1);
       } else {
-        newExpandedFields.add(fieldId);
+        // Field is collapsed, add it
+        state.expandedFields.push(fieldId);
       }
-
-      state.expandedFields = newExpandedFields;
     },
     expandAllFields: (state) => {
       if (state.data) {
-        const allFieldIds = new Set<number>();
+        const allFieldIds: number[] = [];
 
         // Collect all field IDs from the report
         state.data.reportResult.profitnLoss.forEach((section) => {
-          allFieldIds.add(section.id);
+          allFieldIds.push(section.id);
           section.fields.forEach((field) => {
-            allFieldIds.add(field.id);
+            allFieldIds.push(field.id);
             if (field.fields) {
               field.fields.forEach((subField) => {
-                allFieldIds.add(subField.id);
+                allFieldIds.push(subField.id);
               });
             }
           });
@@ -68,7 +68,7 @@ const reportSlice = createSlice({
       }
     },
     collapseAllFields: (state) => {
-      state.expandedFields = new Set();
+      state.expandedFields = [];
     },
     clearError: (state) => {
       state.error = null;

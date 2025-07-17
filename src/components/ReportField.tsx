@@ -23,6 +23,7 @@ const ReportField: React.FC<ReportFieldProps> = ({
   const isExpanded = useAppSelector(selectIsFieldExpanded(field.id));
 
   const handleToggleExpansion = () => {
+    console.log("Toggling field:", field.id, "Currently expanded:", isExpanded);
     dispatch(toggleFieldExpansion(field.id));
   };
 
@@ -135,7 +136,7 @@ const ReportField: React.FC<ReportFieldProps> = ({
       {hasSubFields && isExpanded && (
         <div className="border-t border-gray-100 bg-gray-25">
           <div className="space-y-1 p-2">
-            {field.fields!.map((subField) => (
+            {field?.fields?.map((subField) => (
               <ReportField
                 key={subField.id}
                 field={subField}
