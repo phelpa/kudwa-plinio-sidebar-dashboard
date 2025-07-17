@@ -22,11 +22,7 @@ function App() {
             isCollapsed={isSidebarCollapsed}
             onToggle={toggleSidebar}
           />
-          <main
-            className={`transition-all duration-300 ${
-              isSidebarCollapsed ? "ml-16" : "ml-64"
-            }`}
-          >
+          <main className={isSidebarCollapsed ? "ml-16" : "ml-64"}>
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/report" element={<ReportPage />} />

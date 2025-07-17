@@ -13,7 +13,7 @@ const Navigation: React.FC<NavigationProps> = ({ isCollapsed, onToggle }) => {
 
   return (
     <nav
-      className={`bg-white shadow-lg border-r border-light-brown h-screen fixed left-0 top-0 z-10 transition-all duration-300 ${
+      className={`bg-white shadow-lg border-r border-light-brown h-screen fixed left-0 top-0 z-10 ${
         isCollapsed ? "w-16" : "w-64"
       }`}
     >
@@ -25,7 +25,7 @@ const Navigation: React.FC<NavigationProps> = ({ isCollapsed, onToggle }) => {
           )}
           <button
             onClick={onToggle}
-            className="p-2 rounded-lg text-gray-600 hover:text-dark-gray hover:bg-gray-100 transition-colors duration-200"
+            className="p-2 rounded-lg text-gray-600 hover:text-dark-gray hover:bg-gray-100"
             title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             <svg
@@ -60,7 +60,7 @@ const Navigation: React.FC<NavigationProps> = ({ isCollapsed, onToggle }) => {
               to="/"
               className={`flex items-center ${
                 isCollapsed ? "justify-center px-2" : "px-4"
-              } py-3 rounded-lg text-sm font-medium transition-colors duration-200 ${
+              } py-3 rounded-lg text-sm font-medium ${
                 isActive("/")
                   ? "bg-warm-brown text-white"
                   : "text-gray-600 hover:text-dark-gray hover:bg-gray-100"
@@ -86,7 +86,7 @@ const Navigation: React.FC<NavigationProps> = ({ isCollapsed, onToggle }) => {
               to="/report"
               className={`flex items-center ${
                 isCollapsed ? "justify-center px-2" : "px-4"
-              } py-3 rounded-lg text-sm font-medium transition-colors duration-200 ${
+              } py-3 rounded-lg text-sm font-medium ${
                 isActive("/report")
                   ? "bg-warm-brown text-white"
                   : "text-gray-600 hover:text-dark-gray hover:bg-gray-100"
