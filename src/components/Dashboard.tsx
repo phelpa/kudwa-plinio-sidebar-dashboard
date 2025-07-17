@@ -63,7 +63,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-light-gray">
+    <div>
       {/* Header */}
       <div className="bg-white shadow-sm border-b border-light-brown bg-light-brown rounded-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -74,7 +74,7 @@ const Dashboard: React.FC = () => {
                   <h1 className="text-3xl font-bold text-dark-gray ">
                     Dashboard
                   </h1>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-sm text-gray-600 mt-1 font-bold">
                     {mainDashboard.startDate} - {mainDashboard.endDate}
                   </p>
                 </div>
