@@ -9,7 +9,6 @@ import {
 import {
   selectReportData,
   selectCurrentPeriod,
-  selectIsLoading,
   selectError,
   selectProfitLossSections,
 } from "../store/selectors/reportSelectors";
@@ -20,7 +19,6 @@ const ReportPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const data = useAppSelector(selectReportData);
   const currentPeriod = useAppSelector(selectCurrentPeriod);
-  const isLoading = useAppSelector(selectIsLoading);
   const error = useAppSelector(selectError);
   const sections = useAppSelector(selectProfitLossSections);
 
@@ -42,19 +40,6 @@ const ReportPage: React.FC = () => {
     dispatch(collapseAllFields());
   };
 
-  if (isLoading) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-center h-64">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-warm-brown mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading report data...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   if (error) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -72,6 +57,10 @@ const ReportPage: React.FC = () => {
     );
   }
 
+  if (!data) {
+    return null;
+  }
+
   return (
     <div>
       {/* Header */}
@@ -82,7 +71,7 @@ const ReportPage: React.FC = () => {
               <h1 className="text-3xl font-bold text-dark-gray">
                 Financial Report
               </h1>
-              <p className="mt-2 text-gray-600">
+              <p className="text-sm text-gray-600 mt-1 font-bold">
                 Detailed profit and loss statement
               </p>
             </div>

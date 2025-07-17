@@ -7,7 +7,6 @@ export const selectCurrentPeriod = (state: RootState) =>
   state.report.currentPeriod;
 export const selectExpandedFields = (state: RootState) =>
   state.report.expandedFields;
-export const selectIsLoading = (state: RootState) => state.report.isLoading;
 export const selectError = (state: RootState) => state.report.error;
 
 // Memoized selector for checking if a field is expanded

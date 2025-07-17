@@ -9,7 +9,6 @@ interface ReportState {
   data: ReportData | null;
   currentPeriod: PeriodType;
   expandedFields: number[];
-  isLoading: boolean;
   error: string | null;
 }
 
@@ -17,14 +16,11 @@ const initialState: ReportState = {
   data: null,
   currentPeriod: "monthly",
   expandedFields: [],
-  isLoading: false,
   error: null,
 };
 
 // Async thunk for loading report data
 export const loadReportData = createAsyncThunk("report/loadData", async () => {
-  // Simulate API call delay
-  await new Promise((resolve) => setTimeout(resolve, 300));
   return reportData as unknown as ReportData;
 });
 
@@ -76,17 +72,14 @@ const reportSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loadReportData.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
+      .addCase(loadReportData.pending, () => {
+        // No-op, as isLoading is removed
       })
       .addCase(loadReportData.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.data = action.payload;
         state.error = null;
       })
       .addCase(loadReportData.rejected, (state, action) => {
-        state.isLoading = false;
         state.error = action.error.message || "Failed to load report data";
       });
   },

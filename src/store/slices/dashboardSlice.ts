@@ -10,14 +10,12 @@ import yearlyData from "../../main-dashboard-jsons/yearly.json";
 interface DashboardState {
   data: DashboardData | null;
   currentPeriod: PeriodType;
-  isLoading: boolean;
   error: string | null;
 }
 
 const initialState: DashboardState = {
   data: null,
   currentPeriod: "monthly",
-  isLoading: false,
   error: null,
 };
 
@@ -25,9 +23,6 @@ const initialState: DashboardState = {
 export const loadDashboardData = createAsyncThunk(
   "dashboard/loadData",
   async (period: PeriodType) => {
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
     switch (period) {
       case "monthly":
         return monthlyData as DashboardData;
@@ -55,16 +50,13 @@ const dashboardSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loadDashboardData.pending, (state) => {
-        state.isLoading = true;
         state.error = null;
       })
       .addCase(loadDashboardData.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.data = action.payload;
         state.error = null;
       })
       .addCase(loadDashboardData.rejected, (state, action) => {
-        state.isLoading = false;
         state.error = action.error.message || "Failed to load dashboard data";
       });
   },

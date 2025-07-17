@@ -5,7 +5,6 @@ import { loadDashboardData, setPeriod } from "../store/slices/dashboardSlice";
 import {
   selectDashboardData,
   selectCurrentPeriod,
-  selectIsLoading,
   selectError,
 } from "../store/selectors/dashboardSelectors";
 import KPICard from "./KPICard";
@@ -13,13 +12,11 @@ import LineChartComponent from "./charts/LineChart";
 import PieChartComponent from "./charts/PieChart";
 import BarChartComponent from "./charts/BarChart";
 import ComposedChartComponent from "./charts/ComposedChart";
-import LoadingSpinner from "./LoadingSpinner";
 
 const Dashboard: React.FC = () => {
   const dispatch = useAppDispatch();
   const dashboardData = useAppSelector(selectDashboardData);
   const currentPeriod = useAppSelector(selectCurrentPeriod);
-  const isLoading = useAppSelector(selectIsLoading);
   const error = useAppSelector(selectError);
 
   useEffect(() => {
@@ -30,10 +27,6 @@ const Dashboard: React.FC = () => {
     dispatch(setPeriod(period));
     dispatch(loadDashboardData(period));
   };
-
-  if (isLoading || !dashboardData) {
-    return <LoadingSpinner />;
-  }
 
   if (error) {
     return (
@@ -52,6 +45,10 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
     );
+  }
+
+  if (!dashboardData) {
+    return null;
   }
 
   const { mainDashboard, mainDashboardKPIs } = dashboardData;
