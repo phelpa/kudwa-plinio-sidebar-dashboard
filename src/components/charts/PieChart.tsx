@@ -69,7 +69,7 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
               `${name} ${((percent || 0) * 100).toFixed(0)}%`
             }
           >
-            {chartData.map((entry, index) => (
+            {chartData.map((_, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={colors[index % colors.length]}
