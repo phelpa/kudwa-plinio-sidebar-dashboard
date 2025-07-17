@@ -55,14 +55,14 @@ const Dashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-light-gray">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
+      <div className="bg-white shadow-sm border-b border-light-brown bg-light-brown rounded-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div>
               <div className="flex items-center space-x-3">
                 <div>
-                  <h1 className="text-3xl font-bold text-dark-gray">
-                    Financial Dashboard
+                  <h1 className="text-3xl font-bold text-dark-gray ">
+                    Dashboard
                   </h1>
                   <p className="text-sm text-gray-600 mt-1">
                     {mainDashboard.startDate} - {mainDashboard.endDate}
@@ -81,7 +81,7 @@ const Dashboard: React.FC = () => {
                       onClick={() => setCurrentPeriod(period)}
                       className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
                         currentPeriod === period
-                          ? "bg-soft-blue text-white shadow-sm"
+                          ? "bg-warm-brown text-white shadow-sm"
                           : "text-gray-600 hover:text-dark-gray hover:bg-gray-200"
                       }`}
                     >

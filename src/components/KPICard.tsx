@@ -18,8 +18,8 @@ const KPICard: React.FC<KPICardProps> = ({ kpi, isTopKPI = false }) => {
 
   return (
     <div
-      className={`bg-white rounded-lg shadow-sm border border-gray-200 p-6 ${
-        isTopKPI ? "border-l-4 border-l-soft-blue" : ""
+      className={`bg-white rounded-lg shadow-sm border border-light-brown p-6 ${
+        isTopKPI ? "border-l-4 border-l-warm-brown" : ""
       }`}
     >
       <div className="flex justify-between items-start">

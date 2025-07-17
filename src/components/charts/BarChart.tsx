@@ -53,7 +53,7 @@ const BarChartComponent: React.FC<BarChartComponentProps> = ({
   const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-3 border border-gray-300 rounded-lg shadow-lg">
+        <div className="bg-white p-3 border border-light-brown rounded-lg shadow-lg">
           <p className="text-sm font-semibold text-dark-gray">{label}</p>
           {payload.map((entry, index: number) => (
             <p key={index} className="text-sm" style={{ color: entry.color }}>
@@ -67,7 +67,7 @@ const BarChartComponent: React.FC<BarChartComponentProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className="bg-white rounded-lg shadow-sm border border-light-brown p-6">
       <h3 className="text-lg font-semibold text-dark-gray mb-4">{title}</h3>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={chartData}>

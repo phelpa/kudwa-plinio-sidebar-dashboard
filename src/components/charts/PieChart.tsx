@@ -44,7 +44,7 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
     if (active && payload && payload.length) {
       const data = payload[0];
       return (
-        <div className="bg-white p-3 border border-gray-300 rounded-lg shadow-lg">
+        <div className="bg-white p-3 border border-light-brown rounded-lg shadow-lg">
           <p className="text-sm font-semibold text-dark-gray">{data.name}</p>
           <p className="text-sm text-soft-blue">{formatCurrency(data.value)}</p>
         </div>
@@ -54,7 +54,7 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className="bg-white rounded-lg shadow-sm border border-light-brown p-6">
       <h3 className="text-lg font-semibold text-dark-gray mb-4">{title}</h3>
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>

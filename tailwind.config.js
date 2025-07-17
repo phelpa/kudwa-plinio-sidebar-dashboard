@@ -4,6 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        "light-brown": "#E8DCD3",
         "warm-brown": "#B09280",
         "bright-yellow": "#EAE62F",
         "soft-blue": "#698AC5",
