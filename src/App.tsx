@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import "./App.css";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -7,12 +8,25 @@ import Dashboard from "./components/Dashboard";
 import ReportPage from "./components/ReportPage";
 
 function App() {
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed(!isSidebarCollapsed);
+  };
+
   return (
     <Provider store={store}>
       <Router>
         <div className="min-h-screen bg-light-gray">
-          <Navigation />
-          <main className="ml-64">
+          <Navigation
+            isCollapsed={isSidebarCollapsed}
+            onToggle={toggleSidebar}
+          />
+          <main
+            className={`transition-all duration-300 ${
+              isSidebarCollapsed ? "ml-16" : "ml-64"
+            }`}
+          >
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/report" element={<ReportPage />} />
