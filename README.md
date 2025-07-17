@@ -1,5 +1,7 @@
 # Financial Dashboard
 
+![Kudwa Dashboard](public/kudwa-dashboard.png)
+
 A visually appealing and user-friendly financial dashboard built with React, TypeScript, Tailwind CSS, and Recharts. The dashboard displays financial data from JSON files with interactive charts and key performance indicators.
 
 ## Features
