@@ -22,7 +22,7 @@ const KPICard: React.FC<KPICardProps> = ({ kpi, isTopKPI = false }) => {
         isTopKPI ? "border-l-4 border-l-warm-brown" : ""
       }`}
     >
-      <div className="flex justify-between items-start">
+      <div>
         <div>
           <p className="text-sm font-medium text-gray-600 mb-1">{kpi.name}</p>
           <p
@@ -46,13 +46,17 @@ const KPICard: React.FC<KPICardProps> = ({ kpi, isTopKPI = false }) => {
           )}
         </div>
         {hasChange && (
-          <div className="text-right">
-            <p className="text-xs text-gray-500 mb-1">{kpi.prefix}</p>
-            <p
-              className={`text-sm font-semibold ${getChangeColor(changeValue)}`}
-            >
-              {formatPercentage(changeValue)}
-            </p>
+          <div className="mt-3 pt-3 border-t border-gray-100">
+            <div className="flex items-center justify-between">
+              <p className="text-xs text-gray-500">{kpi.prefix}</p>
+              <p
+                className={`text-sm font-semibold ${getChangeColor(
+                  changeValue
+                )}`}
+              >
+                {formatPercentage(changeValue)}
+              </p>
+            </div>
           </div>
         )}
       </div>
