@@ -1,0 +1,74 @@
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import type { DashboardData, PeriodType } from "../../types/dashboard";
+
+// Import JSON data
+import monthlyData from "../../main-dashboard-jsons/monthly.json";
+import quarterlyData from "../../main-dashboard-jsons/quarterly.json";
+import yearlyData from "../../main-dashboard-jsons/yearly.json";
+
+interface DashboardState {
+  data: DashboardData | null;
+  currentPeriod: PeriodType;
+  isLoading: boolean;
+  error: string | null;
+}
+
+const initialState: DashboardState = {
+  data: null,
+  currentPeriod: "monthly",
+  isLoading: false,
+  error: null,
+};
+
+// Async thunk for loading dashboard data
+export const loadDashboardData = createAsyncThunk(
+  "dashboard/loadData",
+  async (period: PeriodType) => {
+    // Simulate API call delay
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    switch (period) {
+      case "monthly":
+        return monthlyData as DashboardData;
+      case "quarterly":
+        return quarterlyData as DashboardData;
+      case "yearly":
+        return yearlyData as DashboardData;
+      default:
+        throw new Error(`Unknown period: ${period}`);
+    }
+  }
+);
+
+const dashboardSlice = createSlice({
+  name: "dashboard",
+  initialState,
+  reducers: {
+    setPeriod: (state, action: PayloadAction<PeriodType>) => {
+      state.currentPeriod = action.payload;
+    },
+    clearError: (state) => {
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loadDashboardData.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(loadDashboardData.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.data = action.payload;
+        state.error = null;
+      })
+      .addCase(loadDashboardData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message || "Failed to load dashboard data";
+      });
+  },
+});
+
+export const { setPeriod, clearError } = dashboardSlice.actions;
+export default dashboardSlice.reducer;

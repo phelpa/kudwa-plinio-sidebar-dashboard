@@ -1,5 +1,13 @@
-import React, { useState, useEffect } from "react";
-import type { DashboardData, PeriodType } from "../types/dashboard";
+import React, { useEffect } from "react";
+import type { PeriodType, ChartData } from "../types/dashboard";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { loadDashboardData, setPeriod } from "../store/slices/dashboardSlice";
+import {
+  selectDashboardData,
+  selectCurrentPeriod,
+  selectIsLoading,
+  selectError,
+} from "../store/selectors/dashboardSelectors";
 import KPICard from "./KPICard";
 import LineChartComponent from "./charts/LineChart";
 import PieChartComponent from "./charts/PieChart";
@@ -7,41 +15,43 @@ import BarChartComponent from "./charts/BarChart";
 import ComposedChartComponent from "./charts/ComposedChart";
 import LoadingSpinner from "./LoadingSpinner";
 
-// Import JSON data
-import monthlyData from "../main-dashboard-jsons/monthly.json";
-import quarterlyData from "../main-dashboard-jsons/quarterly.json";
-import yearlyData from "../main-dashboard-jsons/yearly.json";
-
 const Dashboard: React.FC = () => {
-  const [currentPeriod, setCurrentPeriod] = useState<PeriodType>("monthly");
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
-    null
-  );
-  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useAppDispatch();
+  const dashboardData = useAppSelector(selectDashboardData);
+  const currentPeriod = useAppSelector(selectCurrentPeriod);
+  const isLoading = useAppSelector(selectIsLoading);
+  const error = useAppSelector(selectError);
 
   useEffect(() => {
-    const loadData = () => {
-      setIsLoading(true);
-      setTimeout(() => {
-        switch (currentPeriod) {
-          case "monthly":
-            setDashboardData(monthlyData as DashboardData);
-            break;
-          case "quarterly":
-            setDashboardData(quarterlyData as DashboardData);
-            break;
-          case "yearly":
-            setDashboardData(yearlyData as DashboardData);
-            break;
-        }
-        setIsLoading(false);
-      }, 500);
-    };
-    loadData();
-  }, [currentPeriod]);
+    dispatch(loadDashboardData(currentPeriod));
+  }, []);
+
+  const handlePeriodChange = (period: PeriodType) => {
+    dispatch(setPeriod(period));
+    dispatch(loadDashboardData(period));
+  };
 
   if (isLoading || !dashboardData) {
     return <LoadingSpinner />;
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-light-gray flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-red-600 mb-2">
+            Error Loading Dashboard
+          </h2>
+          <p className="text-gray-600">{error}</p>
+          <button
+            onClick={() => dispatch(loadDashboardData(currentPeriod))}
+            className="mt-4 px-4 py-2 bg-warm-brown text-white rounded-md hover:bg-opacity-90"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
   }
 
   const { mainDashboard, mainDashboardKPIs } = dashboardData;
@@ -78,7 +88,7 @@ const Dashboard: React.FC = () => {
                   (period) => (
                     <button
                       key={period}
-                      onClick={() => setCurrentPeriod(period)}
+                      onClick={() => handlePeriodChange(period)}
                       className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
                         currentPeriod === period
                           ? "bg-warm-brown text-white shadow-sm"
@@ -152,9 +162,11 @@ const Dashboard: React.FC = () => {
 
           {/* Cash Flow */}
           <BarChartComponent
-            data={mainDashboard.charts.indirectCashflow.filter(
-              (item) => item !== null
-            )}
+            data={
+              mainDashboard.charts.indirectCashflow.filter(
+                (item) => item !== null
+              ) as ChartData[]
+            }
             dateArray={mainDashboard.dateArray}
             title="Cash Flow"
           />
