@@ -143,7 +143,7 @@ const Dashboard: React.FC = () => {
             title="Profit & Loss Overview"
           />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="space-y-8">
             {/* Revenue Split */}
             <PieChartComponent
               data={mainDashboard.charts.totalRevenuesSplit}
